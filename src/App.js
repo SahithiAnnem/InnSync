@@ -3,6 +3,7 @@ import './App.css';
 import NavBar from './components/navbar';
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 import HomeScreen from './screens/HomeScreen';
+import Bookingscreen from './screens/Bookingscreen';
 
 
 
@@ -13,6 +14,7 @@ function App() {
       <Router>
       <Routes>
         <Route path="/home" element={<HomeScreen />} />
+        <Route path='/book/:roomid' exact component={Bookingscreen}/>
       </Routes>
     </Router>
 

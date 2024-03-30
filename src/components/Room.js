@@ -21,7 +21,10 @@ function Room({room}) {
             <h1>{room.name}</h1>
             <p><b>Max Count:</b> {room.maxcount}</p>
             <p><b>Type:</b> {room.type}</p>
+
             <div style={{float:'right'}}>
+                <link to='/book/${room._id}'>
+                <button classname='btn btn-primary m-2'>Book Now</button></link>
                 <button classname=" btn btn-primary" onclick = {handleShow}>View Details</button>
             </div>
 
