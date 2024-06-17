@@ -3,22 +3,32 @@ import axios from 'axios';
 import Room from '../components/Room';
 
 function HomeScreen() {
+    const [rooms, setRooms] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(false);
 
-    const [rooms, setrooms] = useState([])
-    const [loading, setloading] = useState()
-    const [error, seterror] = useState()
     useEffect(() => {
         const fetchData = async () => {
             try {
-                setloading(true)
+                setLoading(true);
                 const data = (await axios.get('/api/rooms/getallrooms')).data;
-                setrooms(data)
-                setloading(false)
+                console.log(data);
 
+                // Check if data is an object before converting it into an array
+                if (typeof data === 'object' && data !== null) {
+                    const roomsArray = Object.values(data);
+                    console.log(roomsArray);
+                    setRooms(roomsArray);
+                } else {
+                    // Handle the case where data is not an object
+                    console.log('Data is not an object:', data);
+                }
+
+                setLoading(false);
             } catch (error) {
-                seterror(true)
-                console.log(error)
-                setloading(false)
+                setError(true);
+                console.log(error);
+                setLoading(false);
             }
         };
 
@@ -26,29 +36,22 @@ function HomeScreen() {
     }, []);
 
     return (
-        <div classname="container">
-            <div classname="row justify-cintent-center mt-5">
-
-                {
-                    loading ? (
-                        <h1>Loading..</h1>
-                    ) : error ? (
-                        <h1>Error</h1>
-                    ) : (
-                        rooms.map(room => (
-                             <div className="col-md-9 mt-2" key={room.id}>
-                                <Room room={room} />
-                            </div>
-                        ))
-                    )
-                }
-
+        <div className="container">
+            <div className="row justify-content-center mt-5">
+                {loading ? (
+                    <h1>Loading..</h1>
+                ) : error ? (
+                    <h1>Error</h1>
+                ) : (
+                    rooms.map(room => (
+                        <div className="col-md-9 mt-2" key={room.id}>
+                            <Room room={room} />
+                        </div>
+                    ))
+                )}
             </div>
-
-
         </div>
-    )
-
+    );
 }
 
 export default HomeScreen;
